@@ -57,8 +57,9 @@ int timer = 59;
 int second = 1000;
 int milliSeconds = 0;
 int restartCounter=0;
-bool hambozo = true;
+bool flag = true;
 bool addMyScore = 0;
+
 std::list<int> highScore;
 std::list<int>::iterator it;
 //Functions
@@ -88,7 +89,7 @@ Square exitbtn;
 
 int main(int argc, char *argv[])
 {
-
+    readHighScoresFromFile();
     initializeRandomNumbersToArray();
     glutInit(&argc, argv);
     glutInitWindowSize(700,700);
@@ -122,10 +123,10 @@ void display()
     else if(Menu==1)
     {
 
-        if(hambozo)
+        if(flag)
         {
             Timer(0);
-            hambozo = false;
+            flag = false;
         }
 
         PlayMenu();
@@ -142,7 +143,7 @@ void display()
     else if(Menu==3)
     {
         printSome("Highest Scores", 40, 70,0,0,0);
-        readHighScoresFromFile();
+        printScore();
     }
     glutSwapBuffers();
     glFlush();
@@ -442,8 +443,17 @@ void initializeRandomNumbersToArray()
 void writeScoreToFile()
 {
     std::ofstream file ("GameScores.txt",std::ios::app);
-
+    int c =1;
     file <<score<<std::endl;
+    readHighScoresFromFile();
+    for(it= highScore.begin(); it!=highScore.end();++it){
+        if(*it == score){
+            playerRank=c;
+        }
+        c++;
+
+    }
+
 }
 
 void readHighScoresFromFile()
@@ -459,7 +469,10 @@ void readHighScoresFromFile()
     highScore.sort();
     highScore.reverse();
     highScore.unique();
-    int c = 1;
+
+}
+void printScore(){
+int c = 1;
     int n=60;
     char temp[20];
     char num[2];
@@ -473,7 +486,4 @@ void readHighScoresFromFile()
         if(c==6)
             break;
     }
-
-
-
 }
