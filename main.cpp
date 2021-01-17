@@ -56,7 +56,6 @@ int playerRank=0;
 int timer = 59;
 int second = 1000;
 int milliSeconds = 0;
-int restartCounter=0;
 bool flag = true;
 bool addMyScore = 0;
 
@@ -131,7 +130,6 @@ void display()
 
         PlayMenu();
 
-
     }
     else if(Menu==2)
     {
@@ -183,8 +181,15 @@ void Mouse(int btn, int state,int x, int y)
 
             if( mouseX>=(start.cx-start.sqWidX/2) && mouseX<=(start.cx+start.sqWidX/2) && mouseY >=(start.cy-start.sqWidY/2) && mouseY <=(start.cy+start.sqWidY/2))
             {
+
                 Menu = 1;
                 status = 1;
+                timer=59;
+                score=0;
+                delta=0;
+                flag=true;
+                i=0;
+
             }
             if( mouseX>=(highScores.cx-highScores.sqWidX/2) && mouseX<=(highScores.cx+highScores.sqWidX/2) && mouseY >=(highScores.cy-highScores.sqWidY/2) && mouseY <=(highScores.cy+highScores.sqWidY/2))
             {
@@ -240,16 +245,18 @@ void specialKeyboard(int key, int x, int y)
     if(Menu==2 || Menu==3)
     {
         if(key==GLUT_KEY_F2)
-            Menu=0;
+            {Menu=0;}
         if(key== GLUT_KEY_F1)
         {
             initializeRandomNumbersToArray();
             timer=59;
             score=0;
             delta=0;
+            flag=true;
+            i=0;
             Menu=1;
         }
-        //glutPostRedisplay();
+        glutPostRedisplay();
     }
 
 }
